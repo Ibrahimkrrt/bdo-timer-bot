@@ -1,6 +1,6 @@
-const { Client, GatewayIntentBits,EmbedBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 const { getTimer, getAllBosses } = require("./scripts/timer/timer");
-const { MOTIVATION_ARRAY } = require("./scripts/motivation/constants/motivation-lines");
+const { MOTIVATION_ARRAY, CODING_MOTIVATION_ARRAY } = require("./scripts/motivation/constants/motivation-lines");
 
 require("dotenv/config");
 const keep_alive = require("./keep_alive");
@@ -21,42 +21,47 @@ client.on("ready", () => {
   console.log("====================================");
 });
 
-function getRandomReply() {
-  const randomIndex = Math.floor(Math.random() * MOTIVATION_ARRAY.length);
-  return `${MOTIVATION_ARRAY[randomIndex]}`;
+function getRandomReply(list) {
+  const randomIndex = Math.floor(Math.random() * list.length);
+  return `${list[randomIndex]}`;
 }
 
-function reply(message,string) {
-  message.reply(string)
+function reply(message, string) {
+  message.reply(string);
 }
 
-function ttsReply(message,string) {
+function ttsReply(message, string) {
   message.reply({
     tts: true,
-    ephemeral : true,
+    ephemeral: true,
     content: string,
-  })
+  });
 }
 
-function replyMultiple(message,stringArray) {
-  stringArray.forEach(line => {
-    message.reply(line)
+function replyMultiple(message, stringArray) {
+  stringArray.forEach((line) => {
+    message.reply(line);
   });
 }
 
 client.on("messageCreate", (message) => {
-  if (message.author.bot) return;
+  try {
+    if (message.author.bot) return;
 
-  const content = message.content.toLowerCase();
+    const content = message.content.toLowerCase();
 
-  const commands = {
-    "!timer": () => reply(message,getTimer()),
-    "!motivateme": () => ttsReply(message,getRandomReply()),
-    "!allbosses": () => replyMultiple(message,getAllBosses()),
-  };
+    const commands = {
+      "!timer": () => reply(message, getTimer()),
+      "!motivateme": () => ttsReply(message, getRandomReply(MOTIVATION_ARRAY)),
+      "!allbosses": () => replyMultiple(message, getAllBosses()),
+    };
 
-  if (commands[content]) {
-    commands[content]();
+    if (commands[content]) {
+      commands[content]();
+    }
+  } catch (error) {
+    let compliment = "```md\n> "+getRandomReply(CODING_MOTIVATION_ARRAY)+"\n```"
+    message.channel.send(`someone should tell to Zeone that there is a problem in his code, cheer him up with this small wishfull thinking :${compliment}`)
   }
 });
 
