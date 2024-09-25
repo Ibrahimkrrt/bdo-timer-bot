@@ -1,11 +1,11 @@
-const { getDay } = require("./constants/days");
+const { getDay,getUTCDate } = require("./constants/days");
 const { BOSSES_DATA } = require("./constants/data");
 
 //#region get current timer
 
 function getTimer() {
   try {
-    const TODAY = new Date()
+    const TODAY = getUTCDate()
     return generateText(TODAY, getNextBosses(TODAY))
   } catch (error) {
     return "I couldn't fetch the timer information. Please contact Zeone."
@@ -68,11 +68,9 @@ function formatTime(hour, minute) {
 
 function bossesGroupedByDay() {
   const days = {};
-  const currentBoss = getNextBosses(new Date())
+  const TODAY = getUTCDate()
+  const currentBoss = getNextBosses(TODAY)
   const currentBossIndex = BOSSES_DATA.indexOf(currentBoss)
-
-  console.log(currentBossIndex);
-  
 
   BOSSES_DATA.forEach((entry,index) => {
     const time = formatTime(entry.hour, entry.minute);
