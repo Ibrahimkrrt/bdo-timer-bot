@@ -25,7 +25,7 @@ function getDay(dayNumber) {
 
 
 function getUTCDate(){
-  var a =moment().utc().toDate()
+  var a = moment().utc().toDate()
   console.log(a );
   
   return a 
