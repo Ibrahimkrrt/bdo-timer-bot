@@ -1,3 +1,5 @@
+const moment = require('moment-timezone');
+
 const DAYS = {
   Monday: 1,
   Tuesday: 2,
@@ -23,17 +25,8 @@ function getDay(dayNumber) {
 
 
 function getUTCDate(){
-  var now = new Date();
-  var utc_timestamp = Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-    now.getUTCHours(),
-    now.getUTCMinutes(),
-    now.getUTCSeconds(),
-    now.getUTCMilliseconds()
-  );
-  return new Date(utc_timestamp)
+  const localTime = moment().tz("Europe/Paris");
+  return localTime.toDate()
 }
 
 exports.DAYS = DAYS;

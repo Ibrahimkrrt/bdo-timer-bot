@@ -12,7 +12,8 @@
   "dependencies": {
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "insult": "^0.0.3"
+    "insult": "^0.0.3",
+    "moment-timezone": "^0.5.45"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
