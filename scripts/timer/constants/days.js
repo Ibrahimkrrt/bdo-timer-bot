@@ -7,5 +7,11 @@ const DAYS = {
   Saturday: 6,
   Sunday: 0,
 };
+const DAYS_OF_THE_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+function getDay(dayNumber){
+  return DAYS_OF_THE_WEEK[dayNumber]
+}
 
 exports.DAYS = DAYS;
+exports.getDay = getDay

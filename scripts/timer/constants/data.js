@@ -7,9 +7,9 @@ const {
   QUIT_BOSS,
   VELL_BOSS,
   MURAKA_BOSS,
-  BLACK_SHADOW_BOSS,
-  TRIBUTE_WAGON_BOSS,
-  CONQUEST_WARS_BOSS,
+  // BLACK_SHADOW_BOSS,
+  // TRIBUTE_WAGON_BOSS,
+  // CONQUEST_WARS_BOSS,
   GARMOTH_BOSS,
 } = require("./bosses");
 const { DAYS } = require("./days");
@@ -92,9 +92,11 @@ const BOSSES_DATA = [
   { day: DAYS.Friday, hour: 5, minute: 0, bosses: [KARANDA_BOSS] },
   { day: DAYS.Friday, hour: 9, minute: 0, bosses: [KUTUM_BOSS] },
   { day: DAYS.Friday, hour: 12, minute: 0, bosses: [KARANDA_BOSS] },
+  { day: DAYS.Friday, hour: 14, minute: 0, bosses: [GARMOTH_BOSS] },
   { day: DAYS.Friday, hour: 16, minute: 0, bosses: [NOUVER_BOSS] },
   { day: DAYS.Friday, hour: 19, minute: 0, bosses: [KZARKA_BOSS] },
   { day: DAYS.Friday, hour: 22, minute: 15, bosses: [KUTUM_BOSS,KZARKA_BOSS] },
+  { day: DAYS.Friday, hour: 23, minute: 15, bosses: [GARMOTH_BOSS] },
 
   // SATURDAY
   { day: DAYS.Saturday, hour: 0, minute: 15, bosses: [KARANDA_BOSS] },
@@ -102,11 +104,12 @@ const BOSSES_DATA = [
   { day: DAYS.Saturday, hour: 5, minute: 0, bosses: [NOUVER_BOSS] },
   { day: DAYS.Saturday, hour: 9, minute: 0, bosses: [KUTUM_BOSS] },
   { day: DAYS.Saturday, hour: 12, minute: 0, bosses: [NOUVER_BOSS] },
-  { day: DAYS.Saturday, hour: 16, minute: 0, bosses: [QUIT_BOSS,MURAKA_BOSS] },
-  { day: DAYS.Saturday, hour: 17, minute: 0, bosses: [BLACK_SHADOW_BOSS] },
-  { day: DAYS.Saturday, hour: 18, minute: 0, bosses: [TRIBUTE_WAGON_BOSS] },
-  { day: DAYS.Saturday, hour: 19, minute: 0, bosses: [KARANDA_BOSS] },
-  { day: DAYS.Saturday, hour: 20, minute: 0, bosses: [CONQUEST_WARS_BOSS] },
+  { day: DAYS.Saturday, hour: 14, minute: 0, bosses: [GARMOTH_BOSS] },
+  // { day: DAYS.Saturday, hour: 16, minute: 0, bosses: [QUIT_BOSS,MURAKA_BOSS] },
+  // { day: DAYS.Saturday, hour: 17, minute: 0, bosses: [BLACK_SHADOW_BOSS] },
+  // { day: DAYS.Saturday, hour: 18, minute: 0, bosses: [TRIBUTE_WAGON_BOSS] },
+  { day: DAYS.Saturday, hour: 19, minute: 0, bosses: [KARANDA_BOSS,KZARKA_BOSS] },
+  // { day: DAYS.Saturday, hour: 20, minute: 0, bosses: [CONQUEST_WARS_BOSS] },
 ];
 
 exports.BOSSES_DATA = BOSSES_DATA;

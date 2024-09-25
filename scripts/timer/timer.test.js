@@ -1,7 +1,7 @@
 const { BOSS_TIMER } = require("./constants/key-word");
 const { BOSSES_DATA } = require("./constants/data");
 const { BOSS_ENUM } = require("./constants/boss-enum");
-const { bdoTimerReply, getNextBosses, generateText } = require("./timer");
+const { getTimer, getNextBosses, generateText } = require("./timer");
 const { KZARKA_BOSS, KARANDA_BOSS } = require("./constants/bosses");
 const { DAYS } = require("./constants/days");
 
@@ -14,10 +14,10 @@ test("should have all the bosses", () => {
     BOSS_ENUM.Offin,
     BOSS_ENUM.Quit,
     BOSS_ENUM.Vell,
-    BOSS_ENUM.BlackShadow,
-    BOSS_ENUM.TributeWagon,
+    // BOSS_ENUM.BlackShadow,
+    // BOSS_ENUM.TributeWagon,
     BOSS_ENUM.Garmoth,
-    BOSS_ENUM.ConquestWars,
+    // BOSS_ENUM.ConquestWars,
     BOSS_ENUM.Muraka,
   ];
   let accumulator = {};
@@ -34,7 +34,7 @@ test("should have all the bosses", () => {
 // =======================================
 
 test("should reply when '!timer' string is typed", () => {
-  expect(bdoTimerReply()).toBeTruthy();
+  expect(getTimer()).toBeTruthy();
 });
 
 // =======================================
@@ -64,9 +64,7 @@ test("should return correct text when multiple bosses are spawninig", () => {
   const HOURS = 1;
   const MINUTES = 15;
   const SECODNES = 0;
-  const EXPECTED_RESULT = `${KZARKA_BOSS.name} and ${
-    KARANDA_BOSS.name
-  } are spawning in ${HOURS}h ${MINUTES - 1}m ${60 - SECODNES}s`;
+  const EXPECTED_RESULT = `**${KZARKA_BOSS.name}** and **${KARANDA_BOSS.name}** are spawning in **${HOURS}h ${MINUTES - 1}m ${60 - SECODNES}s**`;
 
   expect(generateText(TEST_DATE, TEST_BOSS_SPAN)).toEqual(EXPECTED_RESULT);
 });
@@ -83,9 +81,7 @@ test("should return correct text when multiple one boss is spawninig", () => {
   const HOURS = 1;
   const MINUTES = 15;
   const SECODNES = 0;
-  const EXPECTED_RESULT = `${KZARKA_BOSS.name} is spawning in ${HOURS}h ${
-    MINUTES - 1
-  }m ${60 - SECODNES}s`;
+  const EXPECTED_RESULT = `**${KZARKA_BOSS.name}** is spawning in **${HOURS}h ${MINUTES - 1}m ${60 - SECODNES}s**`;
 
   expect(generateText(TEST_DATE, TEST_BOSS_SPAN)).toEqual(EXPECTED_RESULT);
 });

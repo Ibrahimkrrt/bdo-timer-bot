@@ -1,7 +1,9 @@
-const { Client, GatewayIntentBits } = require("discord.js");
-const { bdoTimerReply } = require("./scripts/timer/timer");
-const keep_alive = require("./keep_alive");
+const { Client, GatewayIntentBits,EmbedBuilder } = require("discord.js");
+const { getTimer, getAllBosses } = require("./scripts/timer/timer");
+const { MOTIVATION_ARRAY } = require("./scripts/motivation/constants/motivation-lines");
+
 require("dotenv/config");
+const keep_alive = require("./keep_alive");
 
 const client = new Client({
   intents: [
@@ -19,42 +21,38 @@ client.on("ready", () => {
   console.log("====================================");
 });
 
-const wittyReplies = [
-  "You look like you have more craters than the moon",
-  "It would help if you were the poster child of a condom company",
-  "You’re about as useful as the white crayon",
-  "Did you use a mud puddle as a mirror this morning?",
-  "Were you carrying an umbrella when God was giving out beauty?",
-  "Explaining to you is like teaching calculus to a lemur",
-  "If you ran like your mouth, maybe you’d win a gold medal",
-  "You’re as sharp as a marble",
-  "There’s some shit on your clothes. Oh, nope. That’s just you",
-];
-
-function getTimer(message) {
-  const reply = bdoTimerReply();
-  if (reply) {
-    message.reply(reply);
-  } else {
-    message.reply(
-      "I couldn't fetch the timer information. Please contact Zeone."
-    );
-  }
-}
-
 function getRandomReply() {
-  const randomIndex = Math.floor(Math.random() * wittyReplies.length);
-  return wittyReplies[randomIndex];
+  const randomIndex = Math.floor(Math.random() * MOTIVATION_ARRAY.length);
+  return `${MOTIVATION_ARRAY[randomIndex]}`;
 }
-let i = 0;
+
+function reply(message,string) {
+  message.reply("experimental : "+string)
+}
+
+function ttsReply(message,string) {
+  message.reply({
+    tts: true,
+    ephemeral : true,
+    content: string,
+  })
+}
+
+function replyMultiple(message,stringArray) {
+  stringArray.forEach(line => {
+    message.reply(line)
+  });
+}
+
 client.on("messageCreate", (message) => {
   if (message.author.bot) return;
-  i++;
+
   const content = message.content.toLowerCase();
 
   const commands = {
-    "!timer": () => getTimer(message),
-    "!thankme": () => message.reply(getRandomReply()),
+    "!timer": () => reply(message,getTimer()),
+    "!motivateme": () => ttsReply(message,getRandomReply()),
+    "!allbosses": () => replyMultiple(message,getAllBosses()),
   };
 
   if (commands[content]) {

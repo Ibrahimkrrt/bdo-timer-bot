@@ -1,11 +1,15 @@
-const { BOSS_TIMER, THANK_ME } = require("./constants/key-word");
+const { getDay } = require("./constants/days");
 const { BOSSES_DATA } = require("./constants/data");
 
-// =======================================
+//#region get current timer
 
-function bdoTimerReply() {
-  let nextBosses = getNextBosses(new Date());
-  return generateText(new Date(), nextBosses);
+function getTimer() {
+  try {
+    const TODAY = new Date()
+    return generateText(TODAY, getNextBosses(TODAY))
+  } catch (error) {
+    return "I couldn't fetch the timer information. Please contact Zeone."
+  }
 }
 
 // =======================================
@@ -14,13 +18,12 @@ function getNextBosses(currentDate) {
   let nextBosses = BOSSES_DATA.find(
     (data) =>
       data.day === currentDate.getDay() &&
-      data.hour * 60 + data.minute >=
-        currentDate.getHours() * 60 + currentDate.getMinutes()
+      data.hour * 60 + data.minute >= currentDate.getHours() * 60 + currentDate.getMinutes()
   );
-
+  console.log(nextBosses);
+  
   return nextBosses;
 }
-
 // =======================================
 
 function generateText(date, data) {
@@ -34,7 +37,7 @@ function generateText(date, data) {
   let bossNames = "";
 
   if (bossCount === 1) {
-    bossNames = data.bosses[0].name;
+    bossNames = `**${data.bosses[0].name}**`;
   } else if (bossCount === 2) {
     bossNames = `**${data.bosses[0].name}** and **${data.bosses[1].name}**`;
   } else if (bossCount > 2) {
@@ -55,6 +58,56 @@ function generateText(date, data) {
   return `${bossNames} ${verb} spawning in **${timeString}**`;
 }
 
-exports.bdoTimerReply = bdoTimerReply;
+//#endregion
+
+//#region all bosses
+
+function formatTime(hour, minute) {
+  const h = hour > 9 ? hour : `0${hour}`;
+  const m = minute > 9 ? minute : `0${minute}`;
+  return `${h}:${m}`;
+}
+
+function bossesGroupedByDay() {
+  const days = {};
+  const currentBoss = getNextBosses(new Date())
+  const currentBossIndex = BOSSES_DATA.indexOf(currentBoss)
+
+  console.log(currentBossIndex);
+  
+
+  BOSSES_DATA.forEach((entry,index) => {
+    const time = formatTime(entry.hour, entry.minute);
+    if (!days[entry.day]) {
+      days[entry.day] = [];
+    }
+    entry.bosses.forEach(boss => {
+      days[entry.day].push({ boss: boss, time, isImminent : currentBossIndex === index });
+    });
+  });
+
+  return days;
+}
+
+function getAllBosses() {
+  
+  let messageArray = [];
+  const groupedBosses = bossesGroupedByDay()
+
+  for (const [day, bosses] of Object.entries(groupedBosses)) {
+    let message = `${getDay(day)}:\n\nBoss Name               | Spawn Time\n------------------------|------------\n`;
+    bosses.forEach(entity => {
+      message += `${entity.isImminent ? '+> ' : '   '}${entity.boss.name.padEnd(20)} | ${entity.time}\n`;
+    });
+    messageArray.push("```diff\n" + message + "\n```")
+  }
+
+  return messageArray;
+}
+
+//#endregion
+
+exports.getTimer = getTimer;
 exports.getNextBosses = getNextBosses;
+exports.getAllBosses = getAllBosses;
 exports.generateText = generateText;
