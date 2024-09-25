@@ -20,8 +20,6 @@ function getNextBosses(currentDate) {
       data.day === currentDate.getDay() &&
       data.hour * 60 + data.minute >= currentDate.getHours() * 60 + currentDate.getMinutes()
   );
-  console.log(nextBosses);
-  
   return nextBosses;
 }
 // =======================================

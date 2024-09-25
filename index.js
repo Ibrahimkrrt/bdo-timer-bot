@@ -27,7 +27,7 @@ function getRandomReply() {
 }
 
 function reply(message,string) {
-  message.reply("experimental : "+string)
+  message.reply(string)
 }
 
 function ttsReply(message,string) {
