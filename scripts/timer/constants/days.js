@@ -25,10 +25,16 @@ function getDay(dayNumber) {
 
 
 function getUTCDate(){
-  var a = moment().utc().toDate()
-  console.log(a );
-  
-  return a 
+  const parisTime = moment.tz("Europe/Paris");
+  const parisDate = new Date(Date.UTC(
+    parisTime.year(), 
+    parisTime.month(), 
+    parisTime.date(), 
+    parisTime.hour(), 
+    parisTime.minute(), 
+    parisTime.second()
+  ));;
+  return parisDate;
 }
 
 exports.DAYS = DAYS;
