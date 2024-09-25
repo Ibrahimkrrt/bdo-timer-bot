@@ -1,15 +1,11 @@
-const { getDay,getUTCDate } = require("./constants/days");
+const { getDay, getUTCDate } = require("./constants/days");
 const { BOSSES_DATA } = require("./constants/data");
 
 //#region get current timer
 
 function getTimer() {
-  try {
-    const TODAY = getUTCDate()
-    return generateText(TODAY, getNextBosses(TODAY))
-  } catch (error) {
-    return "I couldn't fetch the timer information. Please contact Zeone."
-  }
+  const TODAY = getUTCDate();
+  return generateText(TODAY, getNextBosses(TODAY));
 }
 
 // =======================================
@@ -18,7 +14,8 @@ function getNextBosses(currentDate) {
   let nextBosses = BOSSES_DATA.find(
     (data) =>
       data.day === currentDate.getDay() &&
-      data.hour * 60 + data.minute >= currentDate.getHours() * 60 + currentDate.getMinutes()
+      data.hour * 60 + data.minute >=
+        currentDate.getHours() * 60 + currentDate.getMinutes()
   );
   return nextBosses;
 }
@@ -68,17 +65,21 @@ function formatTime(hour, minute) {
 
 function bossesGroupedByDay() {
   const days = {};
-  const TODAY = getUTCDate()
-  const currentBoss = getNextBosses(TODAY)
-  const currentBossIndex = BOSSES_DATA.indexOf(currentBoss)
+  const TODAY = getUTCDate();
+  const currentBoss = getNextBosses(TODAY);
+  const currentBossIndex = BOSSES_DATA.indexOf(currentBoss);
 
-  BOSSES_DATA.forEach((entry,index) => {
+  BOSSES_DATA.forEach((entry, index) => {
     const time = formatTime(entry.hour, entry.minute);
     if (!days[entry.day]) {
       days[entry.day] = [];
     }
-    entry.bosses.forEach(boss => {
-      days[entry.day].push({ boss: boss, time, isImminent : currentBossIndex === index });
+    entry.bosses.forEach((boss) => {
+      days[entry.day].push({
+        boss: boss,
+        time,
+        isImminent: currentBossIndex === index,
+      });
     });
   });
 
@@ -86,16 +87,19 @@ function bossesGroupedByDay() {
 }
 
 function getAllBosses() {
-  
   let messageArray = [];
-  const groupedBosses = bossesGroupedByDay()
+  const groupedBosses = bossesGroupedByDay();
 
   for (const [day, bosses] of Object.entries(groupedBosses)) {
-    let message = `${getDay(day)}:\n\nBoss Name               | Spawn Time\n------------------------|------------\n`;
-    bosses.forEach(entity => {
-      message += `${entity.isImminent ? '+> ' : '   '}${entity.boss.name.padEnd(20)} | ${entity.time}\n`;
+    let message = `${getDay(
+      day
+    )}:\n\nBoss Name               | Spawn Time\n------------------------|------------\n`;
+    bosses.forEach((entity) => {
+      message += `${entity.isImminent ? "+> " : "   "}${entity.boss.name.padEnd(
+        20
+      )} | ${entity.time}\n`;
     });
-    messageArray.push("```diff\n" + message + "\n```")
+    messageArray.push("```diff\n" + message + "\n```");
   }
 
   return messageArray;

@@ -62,6 +62,7 @@ client.on("messageCreate", (message) => {
   } catch (error) {
     let compliment = "```md\n> "+getRandomReply(CODING_MOTIVATION_ARRAY)+"\n```"
     message.channel.send(`someone should tell to Zeone that there is a problem in his code, cheer him up with this small wishfull thinking :${compliment}`)
+    console.log(error)
   }
 });
 
